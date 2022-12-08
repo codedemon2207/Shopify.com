@@ -1,0 +1,54 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Checkout{% endblock title %}
+{% block main-content %}
+<div class="container">
+ <div class="row mt-5">
+  <div class="col-sm-6">
+    <h4>Order Summary</h4>
+    <hr>
+    {% for it in cart_items %}
+      <div class="card mb-2">
+        <div class="card-body">
+          <h5>Product: {{it.product.name}}</h5>
+          <p>Quantity: {{it.quantity}}</p>
+          <p class="fw-bold">Price: {{it.total_cost}}</p>
+        </div>
+      </div>
+    {% endfor %}
+    <p class="fw-bold">Final Amount Rs: {{total_amount}}</p>
+    <small> When your order is placed, we'll send you an e-mail message acknowledging receipt of your order. 
+      If you choose to pay using an electronic payment method (credit card, debit card or net banking), you will be directed to your bank's website to complete your payment. 
+      Your contract to purchase an item will not be complete until we receive your electronic payment and dispatch your item. 
+      If you choose to pay using Pay on Delivery (POD), you can pay using cash/card/net banking when you receive your item.</small>
+  </div>
+  <div class="col-sm-4 offset-sm-1">
+    <h4>Select Shipping Address</h4>
+    <hr>
+    <form action="/paymentdone">
+      
+       
+        {% for ad in addrs %}
+          <div class="card ">
+            <div class="card-body">
+            <h5>{{ad.name}}</h5>
+            <p>{{ad.locality}}, {{ad.city}}, {{ad.state}} - {{ad.zipcode}}</p>
+            </div>
+          </div>
+          <div class="form-check mt-2 mb-2">
+              <input class="form-check-input" type="radio" name="custid" id="custadd{{forloop.counter}}" value="{{ad.id}}">
+              <label class="form-check-label fw-bold" for="custadd{{forloop.counter}}">
+                Address: {{forloop.counter}} </label>
+          </div>
+        {% endfor %}
+      
+
+      
+        <div class="text-end">
+          <button type="submit" class="btn btn-warning mt-3 px-5 fw-bold">Continue</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock main-content %}
